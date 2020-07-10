@@ -4,10 +4,10 @@ namespace App\Entity;
 
 use App\Repository\InvoiceRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=InvoiceRepository::class)
@@ -16,7 +16,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  *      "pagination_enabled"=true,
  *      "pagination_items_per_page"=20,
  *      "order": {"sentAt":"desc"}
- *  } 
+ *  },
+ *  normalizationContext={
+ *      "groups"={"invoices_read"}
+ *  }
  * )
  * @ApiFilter(OrderFilter::class, properties={"amount","sentAt"})
  */
@@ -26,32 +29,38 @@ class Invoice
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"invoices_read","customers_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"invoices_read","customers_read"})
      */
-    private $amout;
+    private $amount;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"invoices_read","customers_read"})
      */
     private $sentAt;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"invoices_read","customers_read"})
      */
     private $status;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="invoices")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"invoices_read"})
      */
     private $customer;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"invoices_read","customers_read"})
      */
     private $chrono;
 
@@ -60,14 +69,14 @@ class Invoice
         return $this->id;
     }
 
-    public function getAmout(): ?float
+    public function getAmount(): ?float
     {
-        return $this->amout;
+        return $this->amount;
     }
 
-    public function setAmout(float $amout): self
+    public function setAmount(float $amount): self
     {
-        $this->amout = $amout;
+        $this->amount = $amount;
 
         return $this;
     }
