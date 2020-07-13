@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *  normalizationContext={
  *      "groups"={"invoices_read"}
  *  },
- *  denormalizationContext={"disable_type_enforcement"=true}
+ *  denormalizationContext={"disable_type_enforcement"=true},
  * )
  * @ApiFilter(OrderFilter::class, properties={"amount","sentAt"})
  */
