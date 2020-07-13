@@ -8,10 +8,16 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=InvoiceRepository::class)
  * @ApiResource(
+ *  subresourceOperations={
+ *      "api_customers_invoices_get_subresource"={
+ *          "normalization_context"={"groups"={"invoices_subresource"}}
+*        }
+ *  },
  *  attributes={
  *      "pagination_enabled"=true,
  *      "pagination_items_per_page"=20,
@@ -19,7 +25,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *  },
  *  normalizationContext={
  *      "groups"={"invoices_read"}
- *  }
+ *  },
+ *  denormalizationContext={"disable_type_enforcement"=true}
  * )
  * @ApiFilter(OrderFilter::class, properties={"amount","sentAt"})
  */
@@ -29,25 +36,31 @@ class Invoice
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"invoices_read","customers_read"})
+     * @Groups({"invoices_read","customers_read","invoices_subresource"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"invoices_read","customers_read"})
+     * @Groups({"invoices_read","customers_read","invoices_subresource"})
+     * @Assert\NotBlank
+     * @Assert\Type(type="numeric",message="The amount must be integer")
      */
     private $amount;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"invoices_read","customers_read"})
+     * @Groups({"invoices_read","customers_read","invoices_subresource"})
+     * @Assert\Type(type="DateTime")
+     * @Assert\NotBlank
      */
     private $sentAt;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"invoices_read","customers_read"})
+     * @Groups({"invoices_read","customers_read","invoices_subresource"})
+     * @Assert\NotBlank
+     * @Assert\Choice(choices={"SENT","PAID","CANCELLED"},message="choice SENT, PAID or CANCELLED ")
      */
     private $status;
 
@@ -55,14 +68,25 @@ class Invoice
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="invoices")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"invoices_read"})
+     * @Assert\NotBlank
      */
     private $customer;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"invoices_read","customers_read"})
+     * @Groups({"invoices_read","customers_read","invoices_subresource"})
+     * @Assert\NotBlank
      */
     private $chrono;
+
+    /**
+     * @Groups({"invoices_read","invoices_subresource"})
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->customer->getUser();
+    }
 
     public function getId(): ?int
     {

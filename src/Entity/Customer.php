@@ -2,19 +2,26 @@
 
 namespace App\Entity;
 
-use App\Repository\CustomerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Serializer\Annotation\Groups;
+use App\Repository\CustomerRepository;
 use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  * @ApiResource(
+ *      collectionOperations={
+ *          "GET",
+ *          "POST"
+ *      },
+ *      itemOperations={"GET","PUT","DELETE"},
  *      normalizationContext={
  *          "groups"={"customers_read"}
  *      }
@@ -35,18 +42,37 @@ class Customer
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customers_read","invoices_read"})
+     * @Assert\NotBlank(message="The first name of customer is require")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customers_read","invoices_read"})
+     * @Assert\NotBlank(message="The last name of customer is require")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your last name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your last name cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customers_read","invoices_read"})
+     * @Assert\NotBlank
+     * @Assert\Email(message="Email format error")
      */
     private $email;
 
@@ -59,6 +85,7 @@ class Customer
     /**
      * @ORM\OneToMany(targetEntity=Invoice::class, mappedBy="customer")
      * @Groups({"customers_read"})
+     * @ApiSubresource()
      */
     private $invoices;
 
