@@ -20,7 +20,7 @@ class InvoiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Invoice::class);
     }
 
-    public function findLastChrono(User $user){
+    public function findNextChrono(User $user){
         return $this->createQueryBuilder("i")
                     ->select("i.chrono")
                     ->join("i.customer","c")
@@ -29,7 +29,7 @@ class InvoiceRepository extends ServiceEntityRepository
                     ->orderBy("i.chrono", "DESC")
                     ->setMaxResults(1)
                     ->getQuery()
-                    ->getSingleScalarResult();
+                    ->getSingleScalarResult() +1;
     }
 
     // /**
