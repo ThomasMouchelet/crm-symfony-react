@@ -1,0 +1,76 @@
+<?php //App_Entity_Invoice
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Symfony\\Component\\Serializer\\Mapping\\ClassMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Serializer\\Mapping\\ClassMetadata')),
+        clone ($p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata')),
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+    ],
+    null,
+    [
+        'stdClass' => [
+            'name' => [
+                'App\\Entity\\Invoice',
+                'id',
+                'amount',
+                'sentAt',
+                'status',
+                'customer',
+                'chrono',
+                'user',
+            ],
+            'attributesMetadata' => [
+                [
+                    'id' => $o[1],
+                    'amount' => $o[2],
+                    'sentAt' => $o[3],
+                    'status' => $o[4],
+                    'customer' => $o[5],
+                    'chrono' => $o[6],
+                    'user' => $o[7],
+                ],
+            ],
+            'groups' => [
+                1 => [
+                    'invoices_read',
+                    'customers_read',
+                    'invoices_subresource',
+                ],
+                [
+                    'invoices_read',
+                    'customers_read',
+                    'invoices_subresource',
+                ],
+                [
+                    'invoices_read',
+                    'customers_read',
+                    'invoices_subresource',
+                ],
+                [
+                    'invoices_read',
+                    'customers_read',
+                    'invoices_subresource',
+                ],
+                [
+                    'invoices_read',
+                ],
+                [
+                    'invoices_read',
+                    'customers_read',
+                    'invoices_subresource',
+                ],
+                [
+                    'invoices_read',
+                    'invoices_subresource',
+                ],
+            ],
+        ],
+    ],
+    $o[0],
+    []
+); }];

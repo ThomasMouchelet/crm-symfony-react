@@ -1,0 +1,77 @@
+<?php //App_Entity_Customer
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Symfony\\Component\\Serializer\\Mapping\\ClassMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Serializer\\Mapping\\ClassMetadata')),
+        clone ($p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata')),
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+    ],
+    null,
+    [
+        'stdClass' => [
+            'name' => [
+                'App\\Entity\\Customer',
+                'id',
+                'firstName',
+                'lastName',
+                'email',
+                'company',
+                'invoices',
+                'user',
+                'totalAmount',
+            ],
+            'attributesMetadata' => [
+                [
+                    'id' => $o[1],
+                    'firstName' => $o[2],
+                    'lastName' => $o[3],
+                    'email' => $o[4],
+                    'company' => $o[5],
+                    'invoices' => $o[6],
+                    'user' => $o[7],
+                    'totalAmount' => $o[8],
+                ],
+            ],
+            'groups' => [
+                1 => [
+                    'customers_read',
+                    'invoices_read',
+                ],
+                [
+                    'customers_read',
+                    'invoices_read',
+                ],
+                [
+                    'customers_read',
+                    'invoices_read',
+                ],
+                [
+                    'customers_read',
+                    'invoices_read',
+                ],
+                [
+                    'customers_read',
+                    'invoices_read',
+                ],
+                [
+                    'customers_read',
+                ],
+                [
+                    'customers_read',
+                    'invoices_read',
+                ],
+                [
+                    'customers_read',
+                ],
+            ],
+        ],
+    ],
+    $o[0],
+    []
+); }];
