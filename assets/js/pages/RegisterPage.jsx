@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import authAPI from "../services/authAPI";
 import AuthContext from "../contexts/AuthContext";
 import Field from "../components/forms/Field";
+import { toast } from "react-toastify";
 
 const RegisterPage = ({ onLogin, history }) => {
   const { setIsAuthenticated } = useContext(AuthContext);
@@ -41,6 +42,15 @@ const RegisterPage = ({ onLogin, history }) => {
       const response = await authAPI.register(user);
       console.log(response);
       setError({});
+      toast("Wow congrats register success 🦄", {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       history.push("/login");
     } catch (error) {
       console.log(error.response);

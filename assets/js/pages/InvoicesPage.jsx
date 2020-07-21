@@ -3,6 +3,7 @@ import Pagination from "../components/Pagination";
 import invoicesAPI from "../services/invoicesAPI";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const STATUS_CLASSES = {
   PAID: "success",
@@ -35,13 +36,12 @@ const InvoicesPage = (props) => {
 
     try {
       await invoicesAPI.deleteInvoice(id);
+      toast.success("Delete success 🦄");
     } catch (error) {
       console.log(error);
       setInvoices(originalInvoices);
     }
   };
-
-  const handleEdit = () => {};
 
   const handleSearch = (event) => {
     const value = event.currentTarget.value;

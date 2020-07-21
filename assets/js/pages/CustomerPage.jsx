@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Field from "../components/forms/Field";
 import { Link, Redirect } from "react-router-dom";
 import customersAPI from "../services/customersAPI";
+import { toast } from "react-toastify";
 
 const CustomerPage = (props) => {
   const { id = "new" } = props.match.params;
@@ -57,8 +58,10 @@ const CustomerPage = (props) => {
     try {
       if (editing) {
         const response = await customersAPI.editCustomer(id, customer);
+        toast("Edit success 🦄");
       } else {
         const response = await customersAPI.setCustomer(customer);
+        toast("Add success 🦄");
         props.history.push(`/customers/${response.id}`);
       }
       setError({});
@@ -70,6 +73,7 @@ const CustomerPage = (props) => {
         });
         setError(apiErrors);
       }
+      toast.error("Erreur");
     }
   };
 

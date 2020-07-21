@@ -4,6 +4,7 @@ import CustomersAPI from "../services/customersAPI";
 import Select from "../components/forms/Select";
 import InvoicesAPI from "../services/invoicesAPI";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const InvoicePage = (props) => {
   const { id = "new" } = props.match.params;
@@ -70,14 +71,14 @@ const InvoicePage = (props) => {
     try {
       if (editing) {
         const response = await InvoicesAPI.editInvoice(id, invoice);
+        toast.success("Edit success 🦄");
       } else {
         const response = await InvoicesAPI.setInvoice(invoice);
-
+        toast.success("Add success 🦄");
         props.history.push(`/invoices/${response.id}`);
       }
       setError({});
     } catch (error) {
-      console.log(error.response.data);
       if (error.response.data.violations) {
         const apiErrors = {};
         error.response.data.violations.map((violation) => {
@@ -85,6 +86,7 @@ const InvoicePage = (props) => {
         });
         setError(apiErrors);
       }
+      toast.error("Erreur");
     }
   };
 
