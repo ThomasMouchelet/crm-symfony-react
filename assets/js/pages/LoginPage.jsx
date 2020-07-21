@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import authAPI from '../services/authAPI';
 import AuthContext from "../contexts/AuthContext";
+import Field from '../components/forms/Field';
 
 const LoginPage = ({onLogin, history}) => {
 
@@ -38,33 +39,8 @@ const LoginPage = ({onLogin, history}) => {
         <>
             <h1>Login</h1>
             <form action="" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="__email">Email</label>
-                    <input 
-                        value={credentials.email} 
-                        type="email" 
-                        className="form-control" 
-                        name="username" 
-                        id="email" 
-                        placeholder="email" 
-                        onChange={handleChange}
-                    />
-                </div>
-                
-                <p className="invalid-feedback">Aucun compte ne possède cette adresse ou es informations ne correspondent pas</p>
-                
-                <div className="form-group">
-                    <label htmlFor="__password">Password</label>
-                    <input 
-                        value={credentials.password} 
-                        type="text" 
-                        className="form-control" 
-                        name="password" 
-                        id="password" 
-                        placeholder="password" 
-                        onChange={handleChange}
-                    />
-                </div>
+                <Field value={credentials.email} type="email" label="Email" name="username" placeholder="Email" onChange={handleChange} /> 
+                <Field value={credentials.password} type="password" label="Password" name="password" placeholder="Password" onChange={handleChange} /> 
                 <div className="form-group">
                     <button type="submit" className="btn btn-primary">
                         Connexion
