@@ -10,7 +10,8 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Security;
 
-class InvoiceChronoSubscriber implements EventSubscriberInterface {
+class InvoiceChronoSubscriber implements EventSubscriberInterface
+{
 
     private $security;
     private $repository;
@@ -27,19 +28,18 @@ class InvoiceChronoSubscriber implements EventSubscriberInterface {
             KernelEvents::VIEW => ['setChronoForInvoice', EventPriorities::PRE_VALIDATE]
         ];
     }
-    public function setChronoForInvoice(ViewEvent $event){
+    public function setChronoForInvoice(ViewEvent $event)
+    {
         $result = $event->getControllerResult();
         $method =  $event->getRequest()->getMethod();
 
-        if($result instanceof Invoice && $method === "POST"){
+        if ($result instanceof Invoice && $method === "POST") {
             $user = $this->security->getUser();
             $nextChrono = $this->repository->findNextChrono($user);
             $result->setChrono($nextChrono);
-
-            if(empty($result->getSentAt())){
+            if (empty($result->getSentAt())) {
                 $result->setSentAt(new \DateTime());
             }
         }
-
     }
 }

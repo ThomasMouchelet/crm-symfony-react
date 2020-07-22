@@ -1,30 +1,27 @@
 import axios from "axios";
+import { CUSTOMERS_API } from "../config";
 
 function findAll() {
   return axios
-    .get("https://127.0.0.1:8000/api/customers")
+    .get(`${CUSTOMERS_API}`)
     .then((response) => response.data["hydra:member"]);
 }
 function deleteCustomer(id) {
-  return axios
-    .delete(`https://127.0.0.1:8000/api/customers/${id}`)
-    .then((response) => {
-      console.log("Success");
-    });
+  return axios.delete(`${CUSTOMERS_API}/${id}`).then((response) => {
+    console.log("Success");
+  });
 }
 function findOne(id) {
-  return axios
-    .get(`https://127.0.0.1:8000/api/customers/${id}`)
-    .then((response) => response.data);
+  return axios.get(`${CUSTOMERS_API}/${id}`).then((response) => response.data);
 }
 function setCustomer(credentials) {
   return axios
-    .post(`https://127.0.0.1:8000/api/customers`, credentials)
+    .post(`${CUSTOMERS_API}`, credentials)
     .then((response) => response.data);
 }
 function editCustomer(id, credentials) {
   return axios
-    .put(`https://127.0.0.1:8000/api/customers/${id}`, credentials)
+    .put(`${CUSTOMERS_API}/${id}`, credentials)
     .then((response) => response.data);
 }
 

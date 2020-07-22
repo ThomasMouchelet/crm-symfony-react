@@ -19,36 +19,17 @@ const InvoicePage = (props) => {
     status: "",
   });
   const [customers, setCustomers] = useState([]);
+  const [editing, setEditing] = useState(false);
 
   const handleChange = ({ currentTarget }) => {
     const { name, value } = currentTarget;
     setInvoice({ ...invoice, [name]: value });
   };
 
-  const [editing, setEditing] = useState(false);
-
-  useEffect(() => {
-    if (id !== "new") {
-      setEditing(true);
-      getInvoice();
-    }
-    setInvoice({
-      amount: "",
-      customer: "",
-      status: "",
-    });
-    fetchCustomers();
-  }, [id]);
-
   const getInvoice = async () => {
     try {
-      const { amount, customer, status } = await InvoicesAPI.findOne(id);
-
-      setInvoice({
-        amount,
-        customer: customer.id,
-        status,
-      });
+      const { amount, status, customer } = await InvoicesAPI.findOne(id);
+      setInvoice({ amount, status, customer: customer.id });
     } catch (error) {
       console.log(error);
     }
@@ -58,12 +39,27 @@ const InvoicePage = (props) => {
     try {
       const data = await CustomersAPI.findAll();
       setCustomers(data);
-      if (!invoice.customer) setInvoice({ customer: data[0].id });
-      if (!invoice.status) setInvoice({ status: "SENT" });
+
+      if (invoice.customer === "") {
+        setInvoice({ ...invoice, customer: data[0].id });
+      }
+      // if (!invoice.status) setInvoice({ ...invoice, status: "SENT" });
     } catch (error) {
       console.log(error.response);
     }
   };
+
+  useEffect(() => {
+    fetchCustomers();
+  }, []);
+
+  // Récupération de la bonne facture quand l'identifiant de l'URL change
+  useEffect(() => {
+    if (id !== "new") {
+      setEditing(true);
+      getInvoice();
+    }
+  }, [id]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -107,7 +103,7 @@ const InvoicePage = (props) => {
           label="Montant de la facture"
           placeholder="Montant de la facture"
           type="number"
-          value={invoice.amount || ""}
+          value={invoice.amount}
           error={error.amount}
         ></Field>
 
@@ -116,7 +112,7 @@ const InvoicePage = (props) => {
           name="customer"
           options={invoice.customer}
           error={error.customer}
-          value={invoice.customer || ""}
+          value={invoice.customer}
           onChange={handleChange}
         >
           {customers.map((option) => {
@@ -132,7 +128,7 @@ const InvoicePage = (props) => {
           name="status"
           options={invoice.status}
           error={error.status}
-          value={invoice.status || ""}
+          value={invoice.status}
           onChange={handleChange}
         >
           <option value="SENT">Envoyé</option>

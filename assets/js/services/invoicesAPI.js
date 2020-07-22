@@ -1,26 +1,25 @@
 import axios from "axios";
 import CustomersAPI from "../services/customersAPI";
+import { INVOICES_API } from "../config";
 
 function findAll() {
   return axios
-    .get("https://127.0.0.1:8000/api/invoices")
+    .get(`${INVOICES_API}`)
     .then((response) => response.data["hydra:member"]);
 }
 function findOne(id) {
-  return axios
-    .get(`https://127.0.0.1:8000/api/invoices/${id}`)
-    .then((response) => response.data);
+  return axios.get(`${INVOICES_API}/${id}`).then((response) => response.data);
 }
 function deleteInvoice(id) {
   return axios
-    .delete(`https://127.0.0.1:8000/api/invoices/${id}`)
+    .delete(`${INVOICES_API}/${id}`)
     .then((response) =>
       console.log(`La facture numéro ${id} a bien été supprimée`)
     );
 }
 function setInvoice(credentials) {
   return axios
-    .post(`https://127.0.0.1:8000/api/invoices`, {
+    .post(`${INVOICES_API}`, {
       ...credentials,
       customer: `/api/customers/${credentials.customer}`,
     })
@@ -28,7 +27,7 @@ function setInvoice(credentials) {
 }
 function editInvoice(id, credentials) {
   return axios
-    .put(`https://127.0.0.1:8000/api/invoices/${id}`, {
+    .put(`${INVOICES_API}/${id}`, {
       ...credentials,
       customer: `/api/customers/${credentials.customer}`,
     })
